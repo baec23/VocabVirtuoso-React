@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import Navbar from "./components/Navbar";
+import VocabQuizQuestion from "./components/VocabQuizQuestion";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Home from "./Home";
+import CreateVocabList from "./CreateVocabList";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <Navbar/>
+                <div className="content">
+                    <Routes>
+                        <Route exact path="/" element={<Home/>}> </Route>
+                        <Route exact path="/create-vocab-list" element={<CreateVocabList/>}> </Route>
+                        <Route exact path="/quiz" element={<VocabQuizQuestion/>}> </Route>
+                    </Routes>
+                </div>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
