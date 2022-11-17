@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 
-const useFetch = (url) => {
+const useFetch = (url, onComplete) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
@@ -18,6 +18,8 @@ const useFetch = (url) => {
                     setData(data);
                     setIsPending(false);
                     setError(null);
+                    if(onComplete != null)
+                        onComplete(data);
                 })
                 .catch(error => {
                     setIsPending(false);

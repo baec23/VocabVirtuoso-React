@@ -5,7 +5,6 @@ const VocabListSelector = ({vocabLists, onVocabListSelected, onStartClicked}) =>
         <div className="row gy-2">
             <select className="form-select"
                     onChange={(e) => {
-                        console.log(e.target.value);
                         onVocabListSelected(e.target.value);
                     }}>
                 {vocabLists.map((vocabList, index) => (

@@ -2,6 +2,7 @@ import {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import VocabWordInputForm from "./components/VocabWordInputForm";
 import {useNavigate} from "react-router-dom";
+import serverUrl from "./Constants";
 
 const CreateVocabList = () => {
     const navigate = useNavigate();
@@ -14,16 +15,16 @@ const CreateVocabList = () => {
         e.preventDefault();
         let words = [];
         baseWords.map((baseWord, index) => (
-            words[index] = {language: "ENGLISH", text: baseWord, definitions: [{language: "KOREAN", text: definitions[index]}]}
+                words[index] = {
+                    text: baseWord,
+                    definitions: [ definitions[index] ]
+                }
             )
         )
-        const vocabList = {id:0, name: listName, words: words};
-
-        const a = JSON.stringify(vocabList);
-        console.log(a);
+        const vocabList = {name: listName, words: words};
 
         setIsPending(true);
-        fetch('http://localhost:8080/vocab-api/v1/vocab-list', {
+        fetch(serverUrl() + '/vocab-list', {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(vocabList)
@@ -61,13 +62,11 @@ const CreateVocabList = () => {
                                                     let newBaseWords = [...baseWords];
                                                     newBaseWords[index] = newBaseText;
                                                     setBaseWords(newBaseWords);
-                                                    console.log(baseWords[index]);
                                                 }}
                                                 onDefinitionChanged={(newDefinitionText) => {
                                                     let newDefinitions = [...definitions];
                                                     newDefinitions[index] = newDefinitionText;
                                                     setDefinitions(newDefinitions);
-                                                    console.log(definitions[index]);
                                                 }}
                                             />))}
                                         <button className="btn btn-primary"

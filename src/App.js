@@ -15,7 +15,7 @@ function App() {
                         <Route exact path="/" element={<Home/>}> </Route>
                         <Route exact path="/create-vocab-list" element={<CreateVocabList/>}> </Route>
                         <Route exact path="/view-vocab-lists" element={<ViewVocabLists/>}> </Route>
-                        <Route exact path="/quiz/:vocabListId" element={<VocabQuiz/>}> </Route>
+                        <Route routeName="abc" exact path="/quiz/:vocabListId" element={<VocabQuiz/>}> </Route>
                     </Routes>
                 </div>
             </div>
