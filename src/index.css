@@ -6,6 +6,10 @@
     min-height: 50px;
     font-size: 2rem;
 }
+
+textarea.no-resize{
+    resize: none;
+}
 /** {*/
 /*    margin: 0;*/
 /*    font-family: "Roboto";*/

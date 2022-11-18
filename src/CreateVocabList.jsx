@@ -24,6 +24,8 @@ const CreateVocabList = () => {
         const vocabList = {name: listName, words: words};
 
         setIsPending(true);
+
+        console.log(JSON.stringify(vocabList));
         fetch(serverUrl() + '/vocab-list', {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
@@ -35,12 +37,13 @@ const CreateVocabList = () => {
     }
 
     return (
-        <div className="container">
-            <h2>Create Vocab List</h2>
+        <div className="container mt-5">
+            <h2>Create New Vocab List</h2>
             <form>
                 <div className="container">
                     <div className="col">
-                        <div className="row mb-5">
+
+                        <div className="row mb-5 ms-1 me-1">
                             <label className="form-label">List Name</label>
                             <input
                                 className="form-control"

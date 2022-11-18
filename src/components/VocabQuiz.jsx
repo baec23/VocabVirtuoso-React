@@ -8,12 +8,26 @@ import {useState} from "react";
 
 const VocabQuiz = () => {
     const {vocabListId} = useParams();
+
+    let fetchUrl = serverUrl() + "/quiz-question";
+    switch(vocabListId){
+        case "all-en":
+            fetchUrl += "/all/ENGLISH";
+            break;
+        case "all-ko":
+            fetchUrl += "/all/KOREAN";
+            break;
+        default:
+            fetchUrl += "/" + vocabListId;
+            break;
+    }
+
     const [answerStates, setAnswerStates] = useState([]);
     const {
         data: quizQuestion,
         isPending,
         error
-    } = useFetch(serverUrl() + "/quiz-question/" + vocabListId, onQuestionLoaded);
+    } = useFetch(fetchUrl, onQuestionLoaded);
     const navigate = useNavigate();
 
     function onQuestionLoaded(quizQuestion) {
@@ -33,7 +47,7 @@ const VocabQuiz = () => {
 
             setTimeout(() => {
                 navigate(0);
-            }, 2000);
+            }, 1000);
         } else {
 
             let newAnswerStates = [...answerStates];

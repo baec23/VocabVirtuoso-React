@@ -16,6 +16,9 @@ class Navbar extends Component {
                             <Link className="nav-link" to="/create-vocab-list">Create Vocab List</Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link" to="/create-bulk-vocab-list">Create Bulk Vocab List</Link>
+                        </li>
+                        <li className="nav-item">
                             <Link className="nav-link" to="/view-vocab-lists">View Vocab Lists</Link>
                         </li>
                     </ul>

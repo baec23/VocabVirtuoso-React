@@ -1,9 +1,8 @@
 import {useEffect, useState} from "react";
 
-const useFetch = (url, onComplete) => {
-    const [data, setData] = useState(null);
+const useFetchListWithDefaults = (url, startDefaults) => {
     const [isPending, setIsPending] = useState(true);
-    const [error, setError] = useState(null);
+    const [resultData, setResultData] = useState(null);
 
     useEffect(() => {
         setTimeout(() => {
@@ -15,18 +14,14 @@ const useFetch = (url, onComplete) => {
                     return res.json();
                 })
                 .then(data => {
-                    setData(data);
                     setIsPending(false);
-                    setError(null);
-                    if(onComplete != null)
-                        onComplete(data);
+                    setResultData([...startDefaults, ...data]);
                 })
                 .catch(error => {
                     setIsPending(false);
-                    setError(error.message);
                 })
         }, 50);
     }, [url]);
-    return {data, isPending, error};
+    return {resultData, isPending};
 }
-export default useFetch;
+export default useFetchListWithDefaults;

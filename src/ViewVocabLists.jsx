@@ -18,8 +18,8 @@ const ViewVocabLists = () => {
                                 {vocabList.name} - {vocabList.words.length}
                             </div>
                             <div className="card-body">
-                                {vocabList.words.map((word) => (
-                                    <p key={word.text}>{word.text} - {word.definitions[0].text}</p>
+                                {vocabList.words.map((word, index) => (
+                                    <p key={index}>{word}</p>
                                 ))}
                             </div>
                         </div>
