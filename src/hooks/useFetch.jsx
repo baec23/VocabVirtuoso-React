@@ -7,7 +7,9 @@ const useFetch = (url, onComplete) => {
 
     useEffect(() => {
         setTimeout(() => {
-            fetch(url)
+            fetch(url, {
+                headers: {"Content-Type": "application/json", "Origin": "https://main.d32nyo45vjymyt.amplifyapp.com", "X-Requested-With": "XMLHttpRequest"}
+            })
                 .then(res => {
                     if (!res.ok) {
                         throw Error("Could not fetch data");
