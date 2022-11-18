@@ -29,7 +29,7 @@ const CreateBulkVocabList = () => {
 
         fetch(serverUrl() + '/vocab-list', {
             method: 'POST',
-            headers: {"Content-Type": "application/json"},
+            headers: {"Content-Type": "application/json", "Origin": "https://main.d32nyo45vjymyt.amplifyapp.com", "X-Requested-With": "XMLHttpRequest"},
             body: JSON.stringify(vocabList)
         }).then(() => {
             navigate("/");
