@@ -1,8 +1,9 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.css';
 import VocabWordInputForm from "./components/VocabWordInputForm";
 import {useNavigate} from "react-router-dom";
 import serverUrl from "./Constants";
+import {LoginStateContext} from "./AuthWrapper";
 
 const CreateVocabList = () => {
     const navigate = useNavigate();
@@ -10,6 +11,7 @@ const CreateVocabList = () => {
     const [baseWords, setBaseWords] = useState([]);
     const [definitions, setDefinitions] = useState([]);
     const [isPending, setIsPending] = useState('false');
+    const loginState = useContext(LoginStateContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,7 +30,10 @@ const CreateVocabList = () => {
         console.log(JSON.stringify(vocabList));
         fetch(serverUrl() + '/vocab-list', {
             method: 'POST',
-            headers: {"Content-Type": "application/json", "Origin": "https://main.d32nyo45vjymyt.amplifyapp.com", "X-Requested-With": "XMLHttpRequest"},
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + loginState.access_token
+            },
             body: JSON.stringify(vocabList)
         }).then(() => {
             setIsPending(false);

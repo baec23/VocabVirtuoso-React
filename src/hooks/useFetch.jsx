@@ -1,14 +1,17 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {LoginStateContext} from "../AuthWrapper";
 
 const useFetch = (url, onComplete) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
+    const loginState = useContext(LoginStateContext);
 
     useEffect(() => {
         setTimeout(() => {
             fetch(url, {
-                headers: {"Content-Type": "application/json", "Origin": "https://main.d32nyo45vjymyt.amplifyapp.com", "X-Requested-With": "XMLHttpRequest"}
+                headers: {"Content-Type": "application/json",
+                    "Authorization": "Bearer " + loginState.access_token}
             })
                 .then(res => {
                     if (!res.ok) {

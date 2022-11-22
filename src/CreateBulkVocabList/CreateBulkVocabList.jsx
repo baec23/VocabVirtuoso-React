@@ -1,18 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import useBulkVocabInput from "./hooks/useBulkVocabInput";
-import {useEffect, useState} from "react";
-import ListNameInput from "./CreateBulkVocabList/ListNameInput";
-import BulkListInput from "./CreateBulkVocabList/BulkListInput";
-import serverUrl from "./Constants";
+import {useContext, useState} from "react";
+import ListNameInput from "./ListNameInput";
+import BulkListInput from "./BulkListInput";
+import serverUrl from "../Constants";
 import {useNavigate} from "react-router-dom";
+import {LoginStateContext} from "../AuthWrapper";
 
 const CreateBulkVocabList = () => {
     const navigate = useNavigate();
     const [listName, setListName] = useState();
     const [bulkInput, setBulkInput] = useState("");
     const {baseWords, definitions, isValid, error} = useBulkVocabInput(listName, bulkInput);
+    const loginState = useContext(LoginStateContext);
 
-    function handleCreateList(e){
+    function handleCreateList(e) {
         e.preventDefault();
 
         let words = [];
@@ -29,7 +31,10 @@ const CreateBulkVocabList = () => {
 
         fetch(serverUrl() + '/vocab-list', {
             method: 'POST',
-            headers: {"Content-Type": "application/json", "Origin": "https://main.d32nyo45vjymyt.amplifyapp.com", "X-Requested-With": "XMLHttpRequest"},
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + loginState.access_token
+            },
             body: JSON.stringify(vocabList)
         }).then(() => {
             navigate("/");
@@ -51,7 +56,10 @@ const CreateBulkVocabList = () => {
                     }}/>
                 </div>
                 <div className="row mt-3">
-                    {!isValid ? <div className="alert alert-danger">{error}</div> : <div className="btn btn-lg btn-primary text-start" onClick={(e) => {handleCreateList(e)}}>Create List</div> }
+                    {!isValid ? <div className="alert alert-danger">{error}</div> :
+                        <div className="btn btn-lg btn-primary text-start" onClick={(e) => {
+                            handleCreateList(e)
+                        }}>Create List</div>}
                 </div>
             </div>
         </div>

@@ -7,7 +7,7 @@ import useFetchListWithDefaults from "./hooks/useFetchListWithDefaults";
 
 const Home = () => {
 
-    const {resultData:allVocabLists, isPending} = useFetchListWithDefaults(serverUrl() + "/vocab-list/all", [{
+    const {resultData: allVocabLists, isPending} = useFetchListWithDefaults(serverUrl() + "/vocab-list/all", [{
         id: "all-en",
         name: "English -> Korean",
         words: []
@@ -28,7 +28,7 @@ const Home = () => {
     return (
         <div className="container">
             <div className="col">
-                <div className="row mt-5">
+                <div className="row">
                     {isPending && <div>Loading...</div>}
                     {allVocabLists &&
                         <VocabListSelector vocabLists={allVocabLists}
