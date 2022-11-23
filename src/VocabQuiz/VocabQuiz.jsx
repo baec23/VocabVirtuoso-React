@@ -51,7 +51,10 @@ function VocabQuiz() {
             {quizQuestion &&
                 <div className="col">
                     <div className="container rounded-4 bg-opacity-25 bg-secondary ps-4 pe-4 pt-4 pb-4">
-                        <h2 className="text-dark">{quizQuestion.question}</h2>
+                        <div className="row">
+                            <h2 className="text-dark">{quizQuestion.question}</h2>
+                        </div>
+
                         {quizQuestion.answers.map((answer, index) => (
                             <div className="row mt-3" key={answer.answerText}>
                                 <QuizQuestionAnswer index={index} state={answerStates[index]} text={answer.answerText}

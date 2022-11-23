@@ -9,44 +9,78 @@ function useFetchQuizQuestion(vocabListId, quizState) {
     const [quizQuestion, setQuizQuestion] = useState(null);
     const loginState = useContext(LoginStateContext);
 
-    let fetchUrl = serverUrl() + "/quiz-question";
+    let fetchRequestParam;
     switch (vocabListId) {
         case "all-en":
-            fetchUrl += "/all/ENGLISH";
+            fetchRequestParam = {username: loginState.username, language: "ENGLISH"};
             break;
         case "all-ko":
-            fetchUrl += "/all/KOREAN";
+            fetchRequestParam = {username: loginState.username, language: "KOREAN"};
             break;
         default:
-            fetchUrl += "/" + vocabListId;
+            fetchRequestParam = {username: loginState.username, vocabListId: vocabListId};
             break;
     }
 
     useEffect(() => {
         switch (quizState) {
             case "not_loaded":
-                doFetch();
+                doFetch(fetchRequestParam);
                 break;
             case "answered_correctly":
-                submitCorrectAnswer();
+                submitAnswerResult(loginState.username, quizQuestion.question, 1);
                 setTimeout(() => {
-                    doFetch()
+                    doFetch(fetchRequestParam)
                 }, 1000);
+                break;
+            case "answered_incorrectly":
+                submitAnswerResult(loginState.username, quizQuestion.question, -1);
                 break;
             default:
                 break;
         }
     }, [quizState]);
 
-    function submitCorrectAnswer(){
+    function submitAnswerResult(username, word, isCorrect) {
+        const requestBody = {username: username, word: word, isCorrect: isCorrect};
+        console.log(requestBody);
+        console.log(JSON.stringify(requestBody));
 
+        fetch(serverUrl() + "/quiz-question/answer", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + loginState.access_token
+            },
+            body: JSON.stringify(requestBody)
+        }).then(res => {
+            if (!res.ok) {
+                console.log("Error Submitting Answer");
+            }
+        })
     }
 
-    function doFetch() {
+    function generateQueryString(query) {
+        const qs = Object.entries(query)
+            .filter(pair => pair[1] !== undefined)
+            .map(pair => pair.filter(i => i !== null).map(encodeURIComponent).join('='))
+            .join('&');
+        return qs && '?' + qs;
+    }
+
+    function doFetch(requestParam) {
+        console.log(requestParam);
         setFetchStatus("fetching");
-        fetch(fetchUrl, {
-            headers: {"Content-Type": "application/json",
-                "Authorization": "Bearer " + loginState.access_token}
+        let fetchUrl;
+        if (vocabListId === "all-en" || vocabListId === "all-ko")
+            fetchUrl = serverUrl() + "/quiz-question/all";
+        else
+            fetchUrl = serverUrl() + "/quiz-question";
+        fetch(fetchUrl + generateQueryString(requestParam), {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + loginState.access_token
+            }
         })
             .then(res => {
                 if (!res.ok) {
