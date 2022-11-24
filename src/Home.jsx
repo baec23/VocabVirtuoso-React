@@ -9,9 +9,13 @@ const Home = () => {
 
     const {resultData: allVocabLists, isPending} = useFetchListWithDefaults(serverUrl() + "/vocab-list/all", [{
         id: "all-en",
-        name: "English -> Korean",
+        name: "(All) English -> Korean",
         words: []
-    }, {id: "all-ko", name: "한글 -> 영어", words: []}]);
+    }, {
+        id: "all-ko",
+        name: "(All) 한글 -> 영어",
+        words: []
+    }]);
     const [selectedList, setSelectedList] = useState({});
     const navigate = useNavigate();
 
