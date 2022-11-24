@@ -31,7 +31,7 @@ function Register({onRegistrationSuccessful, onLoginClicked}) {
         if (!error) {
             setRegistering(true);
 
-            const requestBody = {id: null, username, password, displayName, roles: null};
+            const requestBody = {id: null, username, password, displayName, roles: []};
 
             fetch(serverUrl() + '/register', {
                 method: 'POST',

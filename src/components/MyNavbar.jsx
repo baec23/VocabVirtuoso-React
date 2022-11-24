@@ -10,13 +10,10 @@ function MyNavbar() {
                 <Link className="navbar-brand" to="/">Vocab Virtuoso</Link>
                 <ul className="nav navbar-nav">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/create-vocab-list">Create Vocab List</Link>
+                        <Link className="nav-link" to="/create-bulk-vocab-list">Create Vocab List</Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="/create-bulk-vocab-list">Create Bulk Vocab List</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/view-vocab-lists">View Vocab Lists</Link>
+                        <Link className="nav-link" to="/my-stats">My Stats</Link>
                     </li>
                 </ul>
             </div>

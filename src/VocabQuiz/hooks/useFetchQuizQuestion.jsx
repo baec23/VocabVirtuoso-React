@@ -7,6 +7,7 @@ function useFetchQuizQuestion(vocabListId, quizState) {
     const [fetchStatus, setFetchStatus] = useState("");
     const [error, setError] = useState(null);
     const [quizQuestion, setQuizQuestion] = useState(null);
+    const [hasAnsweredIncorrectly, setAnsweredIncorrectly] = useState(false);
     const loginState = useContext(LoginStateContext);
 
     let fetchRequestParam;
@@ -28,13 +29,18 @@ function useFetchQuizQuestion(vocabListId, quizState) {
                 doFetch(fetchRequestParam);
                 break;
             case "answered_correctly":
-                submitAnswerResult(loginState.username, quizQuestion.question, 1);
+                if (!hasAnsweredIncorrectly) {
+                    submitAnswerResult(loginState.username, quizQuestion.question, 1);
+                    addAnswerResult(true);
+                }
                 setTimeout(() => {
                     doFetch(fetchRequestParam)
                 }, 1000);
                 break;
             case "answered_incorrectly":
                 submitAnswerResult(loginState.username, quizQuestion.question, -1);
+                addAnswerResult(false);
+                setAnsweredIncorrectly(true);
                 break;
             default:
                 break;
@@ -43,8 +49,6 @@ function useFetchQuizQuestion(vocabListId, quizState) {
 
     function submitAnswerResult(username, word, isCorrect) {
         const requestBody = {username: username, word: word, isCorrect: isCorrect};
-        console.log(requestBody);
-        console.log(JSON.stringify(requestBody));
 
         fetch(serverUrl() + "/quiz-question/answer", {
             method: 'POST',
@@ -68,8 +72,16 @@ function useFetchQuizQuestion(vocabListId, quizState) {
         return qs && '?' + qs;
     }
 
+    function addAnswerResult(isCorrect){
+        let recentResults = [...quizQuestion.recentResults];
+        for(let i=0; i<recentResults.length-1; i++){
+            recentResults[i] = recentResults[i+1];
+        }
+        recentResults[recentResults.length-1] = isCorrect ? 1 : -1;
+        setQuizQuestion({question: quizQuestion.question, answers: quizQuestion.answers, recentResults});
+    }
+
     function doFetch(requestParam) {
-        console.log(requestParam);
         setFetchStatus("fetching");
         let fetchUrl;
         if (vocabListId === "all-en" || vocabListId === "all-ko")
@@ -92,6 +104,7 @@ function useFetchQuizQuestion(vocabListId, quizState) {
             .then(quizQuestion => {
                 setQuizQuestion(quizQuestion);
                 setFetchStatus("done");
+                setAnsweredIncorrectly(false);
                 setError(null);
             })
             .catch(error => {
@@ -99,7 +112,6 @@ function useFetchQuizQuestion(vocabListId, quizState) {
                 setError(error.message);
             })
     }
-
     return {quizQuestion, fetchStatus, error};
 }
 
