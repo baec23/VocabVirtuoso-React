@@ -5,7 +5,8 @@ const useFetch = (url, onComplete) => {
     const [data, setData] = useState(null);
     const [isPending, setIsPending] = useState(true);
     const [error, setError] = useState(null);
-    const loginState = useContext(LoginStateContext);
+    const authContext = useContext(LoginStateContext);
+    const loginState = authContext.loginState;
 
     useEffect(() => {
         setTimeout(() => {

@@ -43,8 +43,6 @@ function VocabQuiz() {
             setQuizState("answered_incorrectly");
         }
     }
-    console.log("Quiz Question : ");
-    console.log(quizQuestion);
 
     return (
         <div className="container mt-5">

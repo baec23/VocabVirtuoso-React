@@ -11,7 +11,8 @@ const CreateVocabList = () => {
     const [baseWords, setBaseWords] = useState([]);
     const [definitions, setDefinitions] = useState([]);
     const [isPending, setIsPending] = useState('false');
-    const loginState = useContext(LoginStateContext);
+    const authContext = useContext(LoginStateContext);
+    const loginState = authContext.loginState;
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -27,7 +28,6 @@ const CreateVocabList = () => {
 
         setIsPending(true);
 
-        console.log(JSON.stringify(vocabList));
         fetch(serverUrl() + '/vocab-list', {
             method: 'POST',
             headers: {

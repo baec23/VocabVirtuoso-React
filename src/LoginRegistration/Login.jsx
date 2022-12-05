@@ -47,7 +47,7 @@ function Login({onLoginSuccessful, onRegistrationClicked}) {
                 const userState = {
                     isLoggedIn: true,
                     userId: user.userId,
-                    userDisplayName: user.displayName,
+                    userDisplayName: user.userDisplayName,
                     username: user.username,
                     access_token: user.access_token,
                     refresh_token: user.refresh_token

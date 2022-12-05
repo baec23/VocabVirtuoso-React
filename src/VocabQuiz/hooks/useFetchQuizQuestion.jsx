@@ -8,7 +8,8 @@ function useFetchQuizQuestion(vocabListId, quizState) {
     const [error, setError] = useState(null);
     const [quizQuestion, setQuizQuestion] = useState(null);
     const [hasAnsweredIncorrectly, setAnsweredIncorrectly] = useState(false);
-    const loginState = useContext(LoginStateContext);
+    const authContext = useContext(LoginStateContext);
+    const loginState = authContext.loginState;
 
     let fetchRequestParam;
     switch (vocabListId) {

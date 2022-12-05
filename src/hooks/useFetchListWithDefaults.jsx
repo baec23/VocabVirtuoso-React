@@ -4,7 +4,8 @@ import {LoginStateContext} from "../AuthWrapper";
 const useFetchListWithDefaults = (url, startDefaults) => {
     const [isPending, setIsPending] = useState(true);
     const [resultData, setResultData] = useState(null);
-    const loginState = useContext(LoginStateContext);
+    const authContext = useContext(LoginStateContext);
+    const loginState = authContext.loginState;
 
     useEffect(() => {
         setTimeout(() => {

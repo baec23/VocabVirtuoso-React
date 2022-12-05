@@ -18,9 +18,10 @@ function App() {
                 <title>Vocab Virtuoso</title>
                 <meta charSet="UTF-8"/>
             </Helmet>
-            <MyNavbar/>
-            <div className="content pt-5 m-auto">
-                <AuthWrapper>
+            <AuthWrapper>
+                <MyNavbar/>
+                <div className="content pt-5 m-auto">
+
                     <Routes>
                         <Route exact path="/" element={<Home/>}> </Route>
                         <Route exact path="/login" element={<Login/>}> </Route>
@@ -30,8 +31,8 @@ function App() {
                         <Route exact path="/my-stats" element={<MyStats/>}> </Route>
                         <Route exact path="/quiz/:vocabListId" element={<VocabQuiz/>}> </Route>
                     </Routes>
-                </AuthWrapper>
-            </div>
+                </div>
+            </AuthWrapper>
         </div>
     );
 }

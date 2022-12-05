@@ -20,7 +20,6 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(allVocabLists);
         if (allVocabLists != null && allVocabLists.length > 0)
             setSelectedList(allVocabLists[0]);
     }, [allVocabLists])

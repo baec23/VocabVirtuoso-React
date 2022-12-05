@@ -1,7 +1,6 @@
 import {useEffect, useState} from "react";
 
-const useBulkVocabInput = (listName, bulkInput) => {
-
+const useBulkVocabInput = ({listName, inputType, singleListInput, doubleListInput1, doubleListInput2}) => {
 
     const [isValid, setValid] = useState(false);
     const [error, setError] = useState(null);
@@ -11,8 +10,9 @@ const useBulkVocabInput = (listName, bulkInput) => {
     const [isListNameValid, setListNameValid] = useState(false);
     const [isBulkInputValid, setBulkInputValid] = useState(false);
 
-    function parseBulkInput() {
-        const inputByLines = bulkInput.trim().split("\n");
+    function parseSingleListInput() {
+        console.log("Parse Single List Input");
+        const inputByLines = singleListInput.trim().split("\n");
         const newBaseWords = [];
         const newDefinitions = [];
         for(let i=0; i<inputByLines.length; i++){
@@ -47,6 +47,27 @@ const useBulkVocabInput = (listName, bulkInput) => {
         setBulkInputValid(true);
     }
 
+    function parseDoubleListInput() {
+        console.log("Parse Double List Input");
+        const input1ByLines = doubleListInput1.replaceAll("\t", "").replaceAll(".", "").trim().split("\n");
+        const input2ByLines = doubleListInput2.replaceAll("\t", "").replaceAll(".", "").trim().split("\n");
+        console.log(input1ByLines);
+        console.log(input2ByLines);
+        if(input1ByLines.length !== input2ByLines.length){
+            setBulkInputValid(false);
+            return;
+        }
+        const newBaseWords = [];
+        const newDefinitions = [];
+        for(let i=0; i<input1ByLines.length; i++){
+            newBaseWords.push(input1ByLines[i]);
+            newDefinitions.push([input2ByLines[i]]);
+        }
+        setBaseWords(newBaseWords);
+        setDefinitions(newDefinitions);
+        setBulkInputValid(true);
+    }
+
     useEffect(() => {
         setShouldTryParse(false);
         const timer = setTimeout(() => setShouldTryParse(true), 1000);
@@ -57,11 +78,16 @@ const useBulkVocabInput = (listName, bulkInput) => {
             setListNameValid(true);
         }
         return () => clearTimeout(timer);
-    }, [listName, bulkInput]);
+    }, [listName, singleListInput, inputType, doubleListInput1, doubleListInput2]);
 
     useEffect(() => {
         if(shouldTryParse){
-            parseBulkInput();
+            if(inputType === "Single"){
+                parseSingleListInput();
+            }
+            else if(inputType === "Double"){
+                parseDoubleListInput();
+            }
         }
     }, [shouldTryParse]);
 
